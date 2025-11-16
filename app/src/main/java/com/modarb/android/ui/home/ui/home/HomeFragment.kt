@@ -1,8 +1,11 @@
 package com.modarb.android.ui.home.ui.home
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,12 +14,24 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.chip.Chip
 import com.mikhaellopez.circularprogressbar.CircularProgressBar
 import com.modarb.android.R
 import com.modarb.android.databinding.FragmentHomeBinding
+import com.modarb.android.domain.coaching.DietPlanRecommendation
+import com.modarb.android.domain.coaching.RecommendationEngine
+import com.modarb.android.domain.coaching.WorkoutPlanRecommendation
+import com.modarb.android.domain.coaching.history.NutritionHistoryRepository
+import com.modarb.android.domain.coaching.history.NutritionLog
+import com.modarb.android.domain.coaching.history.WorkoutHistoryRepository
 import com.modarb.android.network.ApiResult
 import com.modarb.android.network.NetworkHelper
 import com.modarb.android.posedetection.RequestPermissionsActivity
@@ -25,6 +40,8 @@ import com.modarb.android.ui.helpers.WorkoutData
 import com.modarb.android.ui.home.HomeActivity
 import com.modarb.android.ui.home.ui.home.domain.models.HomePageResponse
 import com.modarb.android.ui.home.ui.home.presentation.HomeViewModel
+import com.modarb.android.ui.home.ui.home.presentation.WearableMetrics
+import com.modarb.android.ui.home.ui.home.presentation.WearableViewModel
 import com.modarb.android.ui.home.ui.nutrition.domain.models.today_intake.TodayInTakeResponse
 import com.modarb.android.ui.home.ui.plan.domain.models.PlanPageResponse
 import com.modarb.android.ui.home.ui.plan.persentation.PlanViewModel
@@ -41,17 +58,47 @@ class HomeFragment : Fragment() {
 
 
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var wearableViewModel: WearableViewModel
+    private lateinit var workoutHistoryRepository: WorkoutHistoryRepository
+    private lateinit var nutritionHistoryRepository: NutritionHistoryRepository
+    private var latestHomeResponse: HomePageResponse? = null
+    private var latestTodayInTake: TodayInTakeResponse? = null
+
+    private val wearablePermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            val granted = permissions.all { it.value }
+            if (granted) {
+                wearableViewModel.startTracking()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.wearable_permission_denied),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        wearableViewModel = ViewModelProvider(
+            this,
+            WearableViewModel.Factory(requireActivity().application)
+        )[WearableViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        workoutHistoryRepository = WorkoutHistoryRepository(requireContext())
+        nutritionHistoryRepository = NutritionHistoryRepository(requireContext())
         getHomeData()
         getTodayInTake()
         initLogout()
         initActions()
         handleClick()
+        observeWearableMetrics()
 
         Log.d("User ID", UserPrefUtil.getUserData(requireContext())!!.user.id)
         return root
@@ -88,7 +135,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun handleTodayInTakeResponse(todayInTakeResponse: TodayInTakeResponse) {
+        latestTodayInTake = todayInTakeResponse
+        logTodayInTake(todayInTakeResponse)
         updateProgressBars(todayInTakeResponse)
+        updateRecommendations()
     }
 
     @SuppressLint("SetTextI18n")
@@ -146,6 +196,22 @@ class HomeFragment : Fragment() {
         progressBar.progress = consumed
     }
 
+    private fun logTodayInTake(response: TodayInTakeResponse) {
+        val data = response.data
+        val logEntry = NutritionLog(
+            timestamp = System.currentTimeMillis(),
+            caloriesGoal = data.caloriesGoal.roundToInt(),
+            caloriesConsumed = data.caloriesIntake.roundToInt(),
+            proteinGoal = data.proteinGoal.roundToInt(),
+            proteinConsumed = data.proteinConsumed.roundToInt(),
+            carbsGoal = data.carbsGoal.roundToInt(),
+            carbsConsumed = data.carbsConsumed.roundToInt(),
+            fatGoal = data.fatGoal.roundToInt(),
+            fatConsumed = data.fatConsumed.roundToInt()
+        )
+        nutritionHistoryRepository.logDailyIntake(logEntry)
+    }
+
     private fun initLogout() {
         binding.profileBtn.setOnClickListener {
             UserPrefUtil.saveUserData(requireContext(), null)
@@ -192,10 +258,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun handleHomeSuccess(res: HomePageResponse) {
+        latestHomeResponse = res
         WorkoutData.workoutId = res.data.myWorkout.id
         setData(res)
         initMealPlan(res)
         getPlanData()
+        updateRecommendations()
     }
 
     private fun handleHomeError(errorResponse: HomePageResponse) {
@@ -264,6 +332,114 @@ class HomeFragment : Fragment() {
             WorkoutData.getTodayWorkout(response.data.myWorkout.weeks)?.total_number_exercises?.toString()
         binding.exerciseCountTxt.text =
             if (exerciseCount.isNullOrBlank()) "No Exercises" else "$exerciseCount Exercises"
+    }
+
+    private fun updateRecommendations() {
+        val homeResponse = latestHomeResponse ?: return
+        val profile = UserPrefUtil.getUserData(requireContext())?.user ?: return
+        val recommendation = RecommendationEngine.generatePlan(
+            profile = profile,
+            workoutHistory = workoutHistoryRepository.getHistory(),
+            nutritionHistory = nutritionHistoryRepository.getHistory(),
+            activeWorkout = homeResponse.data.myWorkout,
+            todayInTake = latestTodayInTake?.data
+        )
+        bindWorkoutRecommendation(recommendation.workoutPlan)
+        bindDietRecommendation(recommendation.dietPlan)
+    }
+
+    private fun bindWorkoutRecommendation(plan: WorkoutPlanRecommendation) {
+        binding.workoutPlanSummary.text =
+            getString(R.string.recommended_weekly_minutes, plan.weeklyMinutes)
+        binding.workoutSessionDetail.text =
+            getString(R.string.recommended_session_length, plan.recommendedDuration)
+        binding.workoutFocusGroup.removeAllViews()
+        if (plan.focusAreas.isEmpty()) {
+            binding.workoutFocusGroup.visibility = View.GONE
+        } else {
+            binding.workoutFocusGroup.visibility = View.VISIBLE
+            plan.focusAreas.forEach { focus ->
+                val chip = Chip(requireContext()).apply {
+                    text = focus
+                    isCheckable = false
+                    isClickable = false
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    setChipBackgroundColorResource(R.color.grey_700)
+                }
+                binding.workoutFocusGroup.addView(chip)
+            }
+        }
+
+        binding.workoutActions.text =
+            if (plan.actionItems.isEmpty()) getString(R.string.coach_no_workout_data)
+            else plan.actionItems.joinToString("\n") { "${it.dayLabel}: ${it.summary}" }
+    }
+
+    private fun bindDietRecommendation(plan: DietPlanRecommendation) {
+        binding.dietPlanSummary.text = getString(R.string.calories_value, plan.calorieTarget)
+        binding.dietMacroSummary.text = getString(
+            R.string.coach_macro_breakdown,
+            plan.macroTargets.protein,
+            plan.macroTargets.carbs,
+            plan.macroTargets.fats
+        )
+        val reminders = plan.reminders.ifEmpty { listOf(getString(R.string.coach_default_diet_reminder)) }
+        val hydration = getString(R.string.hydration_goal, plan.hydrationGoalMl)
+        binding.dietReminders.text =
+            (reminders + hydration).joinToString(separator = "\n") { "• $it" }
+        binding.dietMeals.text = plan.meals.joinToString(separator = " • ") { it.title }
+    }
+
+    private fun observeWearableMetrics() {
+        binding.connectWearableButton.setOnClickListener {
+            handleWearableButtonClick()
+        }
+        lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                wearableViewModel.metrics.collect { bindWearableMetrics(it) }
+            }
+        }
+    }
+
+    private fun bindWearableMetrics(metrics: WearableMetrics) {
+        val statusText = when (metrics.connectionState) {
+            WearableMetrics.ConnectionState.CONNECTED -> getString(R.string.wearable_connected)
+            WearableMetrics.ConnectionState.SIMULATION -> getString(R.string.wearable_simulated)
+            else -> getString(R.string.wearable_connect_prompt)
+        }
+        binding.wearableStatus.text = statusText
+        binding.heartRateValue.text = getString(R.string.heart_rate_bpm, metrics.heartRate)
+        binding.stepsValue.text = getString(R.string.steps_value, metrics.steps)
+        binding.caloriesValue.text = getString(R.string.calories_value, metrics.caloriesBurned)
+
+        binding.connectWearableButton.text =
+            if (wearableViewModel.isTracking()) getString(R.string.stop_wearable_cta)
+            else getString(R.string.connect_wearable_cta)
+        binding.connectWearableButton.isEnabled =
+            metrics.connectionState != WearableMetrics.ConnectionState.CONNECTING
+    }
+
+    private fun handleWearableButtonClick() {
+        if (wearableViewModel.isTracking()) {
+            wearableViewModel.stopTracking()
+            return
+        }
+        requestWearablePermissions()
+    }
+
+    private fun requestWearablePermissions() {
+        val required = mutableListOf(Manifest.permission.BODY_SENSORS)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            required.add(Manifest.permission.ACTIVITY_RECOGNITION)
+        }
+        val missing = required.filter {
+            ContextCompat.checkSelfPermission(requireContext(), it) != PackageManager.PERMISSION_GRANTED
+        }
+        if (missing.isEmpty()) {
+            wearableViewModel.startTracking()
+        } else {
+            wearablePermissionLauncher.launch(missing.toTypedArray())
+        }
     }
 
     private fun formatWorkoutTime(minutesPerDay: Int, context: Context): String {

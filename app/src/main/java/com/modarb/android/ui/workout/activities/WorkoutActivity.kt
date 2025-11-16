@@ -11,8 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.modarb.android.R
 import com.modarb.android.databinding.ActivityWorkoutBinding
+import com.modarb.android.domain.coaching.WorkoutAnalytics
+import com.modarb.android.domain.coaching.history.WorkoutHistoryRepository
+import com.modarb.android.domain.coaching.history.WorkoutSession
 import com.modarb.android.network.ApiResult
 import com.modarb.android.network.models.BaseResponse
+import com.modarb.android.posedetection.RequestPermissionsActivity
 import com.modarb.android.ui.helpers.WorkoutData
 import com.modarb.android.ui.onboarding.utils.UserPref.UserPrefUtil
 import com.modarb.android.ui.workout.ExerciseListener
@@ -26,13 +30,18 @@ class WorkoutActivity : AppCompatActivity(), ExerciseListener {
     private lateinit var binding: ActivityWorkoutBinding
     private lateinit var adapter: ExercisePagerAdapter
     private val workoutViewModel: WorkoutViewModel by viewModels()
+    private lateinit var workoutHistoryRepository: WorkoutHistoryRepository
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWorkoutBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        workoutHistoryRepository = WorkoutHistoryRepository(this)
 
+        binding.poseButton.setOnClickListener {
+            startActivity(Intent(this, RequestPermissionsActivity::class.java))
+        }
         initViewPager()
         disableViewPagerScroll()
         handleNavigationButtons()
@@ -91,6 +100,7 @@ class WorkoutActivity : AppCompatActivity(), ExerciseListener {
 
     private fun handleSuccess(data: BaseResponse) {
         Toast.makeText(this, data.message, Toast.LENGTH_SHORT).show()
+        logCompletedSession()
         val i = Intent(this, WorkoutInsightsActivity::class.java)
         startActivity(i)
         finish()
@@ -156,6 +166,28 @@ class WorkoutActivity : AppCompatActivity(), ExerciseListener {
             }
         }
 
+    }
+
+    private fun logCompletedSession() {
+        val todayWorkout = WorkoutData.getTodayWorkout() ?: return
+        val intensity = WorkoutAnalytics.resolveIntensity(todayWorkout.day_type)
+        val durationMinutes = WorkoutAnalytics.estimateDurationMinutes(todayWorkout.exercises)
+        val userWeight = UserPrefUtil.getUserData(this)?.user?.weight
+        val calories = WorkoutAnalytics.estimateCalories(userWeight, durationMinutes, intensity)
+        val focusAreas =
+            todayWorkout.exercises.mapNotNull { it.targetMuscles.primary.name }.distinct()
+        val session = WorkoutSession(
+            workoutId = WorkoutData.workoutId,
+            workoutName = todayWorkout.day_type,
+            durationMinutes = durationMinutes,
+            completedAt = System.currentTimeMillis(),
+            caloriesBurned = calories,
+            weekNumber = WorkoutData.getCurrentWeek()?.week_number ?: 0,
+            dayNumber = todayWorkout.day_number,
+            focusAreas = if (focusAreas.isEmpty()) listOf("Full body") else focusAreas,
+            intensityLabel = intensity
+        )
+        workoutHistoryRepository.logSession(session)
     }
 
     override fun onStop() {

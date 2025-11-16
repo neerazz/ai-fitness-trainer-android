@@ -35,6 +35,23 @@
         android:layout_height="0dp"
         android:visibility="invisible" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/pose_button"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/start_pose_coach"
+        android:textAllCaps="false"
+        android:textStyle="bold"
+        app:icon="@drawable/round_camera_24"
+        app:iconGravity="textStart"
+        app:iconPadding="12dp"
+        app:iconTint="@color/white"
+        android:textColor="@color/white" />
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
