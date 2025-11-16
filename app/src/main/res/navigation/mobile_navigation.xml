@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.modarb.android.ui.home.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_my_plan"
+        android:name="com.modarb.android.ui.home.ui.plan.fragments.MyPlanFragment"
+        android:label="@string/my_plan"
+        tools:layout="@layout/fragment_my_plan" />
+
+    <fragment
+        android:id="@+id/navigation_workouts"
+        android:name="com.modarb.android.ui.home.ui.workouts.WorkoutsFragment"
+        android:label="@string/workouts"
+        tools:layout="@layout/fragment_workouts" />
+
+    <fragment
+        android:id="@+id/navigation_nutrition"
+        android:name="com.modarb.android.ui.home.ui.nutrition.NutritionFragment"
+        android:label="@string/nutrition"
+        tools:layout="@layout/fragment_nutrition" />
+
+
+    <fragment
+        android:id="@+id/navigation_more"
+        android:name="com.modarb.android.ui.home.ui.more.fragments.MoreFragment"
+        android:label="@string/more"
+        tools:layout="@layout/fragment_more" />
+
+
+</navigation>

@@ -1,0 +1,302 @@
+<resources>
+    <string name="app_name">Moderb</string>
+    <string name="your_personal_fitness_journey_begins">Your Personal Fitness Journey \n Begins</string>
+    <string name="welcome_to">Welcome To</string>
+    <string name="already_a_user">Already a user ?</string>
+    <string name="continue_with_existing_account">continue with existing account</string>
+    <string name="start">Start</string>
+    <string name="email">Email</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="tailored_workouts_and_nutrition_plans">Tailored Workouts and \n Nutrition Plans</string>
+    <string name="description_tailored_workouts_and_nutrition_plans">Get ready for workouts and nutrition plans tailored just for you. Tell us your goals, preferences, and fitness level, and let our AI create a customized roadmap to success</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="real_time_guidance_and_progress_tracking">Real-Time Guidance and \n Progress Tracking</string>
+    <string name="description_real_time_guidance_and_progress_tracking">Experience real-time guidance during workouts and track your progress effortlessly. Our app provides insights, charts, and motivation to keep you on the path to a healthier lifestyle.</string>
+    <string name="welcome_to_your_fitness_revolution">Welcome to your fitness \n revolution</string>
+    <string name="description_welcome_to_your_fitness_revolution">Meet your new workout companion – your smart personal trainer. Ready to guide you every step of the way. Let’s make every workout count!</string>
+    <string name="get_started">Get Started</string>
+    <string name="whats_your_fitness_goal">What’s Your Fitness \n Goal ?</string>
+    <string name="lose_weight">Lose Weight</string>
+    <string name="want_to_burn_fats_and_lose_weight">I want to burn fats and lose weight</string>
+    <string name="gain_muscle">Gain Muscle</string>
+    <string name="want_to_gain_weight_and_or_build_muscle">I want to gain weight and /or build \n muscle</string>
+    <string name="get_fitter">Get Fitter</string>
+    <string name="want_to_enhance_my_overall_physical_fitness">I want to enhance my overall \n physical fitness</string>
+    <string name="whats_your_gender">What’s Your gender ?</string>
+    <string name="how_old_are_you">Select your birthday</string>
+    <string name="whats_your_height">What’s Your height?</string>
+    <string name="whats_your_weight">What’s Your Weight?</string>
+    <string name="whats_your_target_weight">What’s Your Target weight?</string>
+    <string name="title_activity_gender_selection">GenderSelectionActivity</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="create_your_account">Create Your Account</string>
+    <string name="unlock_a_personalized_fitness_experience">Unlock a Personalized Fitness Experience</string>
+    <string name="name">Name</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="register">Register</string>
+    <string name="what_s_your_height">What’s Your height?</string>
+    <string name="what_s_your_weight">What’s Your Weight?</string>
+    <string name="what_s_your_target_weight">What’s Your Target weight?</string>
+    <string name="beginner">Beginner</string>
+    <string name="beginnerDesc">first time user, have no or little experience .show me what to do and how to do it</string>
+    <string name="intermediate">Intermediate</string>
+    <string name="intermediateDesc">i know some exercise and how to do them properly , help me get into a structured routine</string>
+    <string name="advanced">Advanced</string>
+    <string name="advancedDesc">i’m very experienced with training .Show me something new .</string>
+    <string name="fitness_level">What’s Your Fitness\n level?</string>
+    <string name="exercise_place">Where do you\n exercise ?</string>
+    <string name="gym">Gym</string>
+    <string name="home">Home</string>
+    <string name="both">Both</string>
+    <string name="what_equipment_do_you_have">What Equipment do\n you have available to\n you?\n</string>
+    <string name="do_you_have_pain">Do you currently\n experience any pain or\n discomfort in your\n body</string>
+    <string name="continue_">Continue</string>
+    <string name="day_1">Day 1</string>
+    <string name="full_body_workout">Full-body workout</string>
+    <string name="start_workout">Start Workout</string>
+    <string name="exercises_6">Exercises \n 6</string>
+    <string name="sets_20">sets \n 20</string>
+    <string name="Duration_40_50_min">Duration \n 40–50 min</string>
+    <string name="workoutTitle">Title</string>
+    <string name="workoutDescription">Description</string>
+    <string name="button">button</string>
+    <string name="an_error_occurred">An error occurred</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="please_fill_all_the_data">Please fill all the data</string>
+    <string name="write_a_valid_email">Write a valid email</string>
+    <string name="enter_at_least_8_characters">Enter at least 8 characters</string>
+    <string name="password_don_t_match">Password don\'t match</string>
+    <string name="welcome_please_login_to_complete_your_register">Welcome, please login to complete your register</string>
+    <string name="your_smart_trainer">Your smart trainer</string>
+    <string name="dynamic_workouts_personalized_advice_and_constant_evolution_with_your_progress">Dynamic workouts, personalized \nadvice, and constant evolution \nwith your progress</string>
+    <string name="my_plan">My plan</string>
+    <string name="custom_workout">Custom workout</string>
+    <string name="block1_establishing_the_foundation">Block 1: Establishing the Foundation</string>
+    <string name="description_of_establishing_the_foundation">Your first phase spans 6 weeks, focusing on \nbuilding a solid foundation. Through diverse \nand targeted workouts, you\'ll enhance \nstrength, improve endurance, and set the \nstage for sustainable muscle growth. The \ncompletion of each week unlocks new \nlevels, preparing you for the next stage.</string>
+    <string name="overview">Overview</string>
+    <string name="overview_fitness_level">Fitness level :</string>
+    <string name="fitness_level_des">intermediate</string>
+    <string name="goal">Goal :</string>
+    <string name="about_the_plan">About the plan</string>
+    <string name="home_gym">home &amp; gym</string>
+    <string name="thirty_min_day">30 min / day</string>
+    <string name="equipment_diversity">Equipment Diversity</string>
+    <string name="sixteen">16 day</string>
+    <string name="today_workout">Today’s workout</string>
+    <string name="Block1_your_personalized_plan">Block 1 : Your personalized plan</string>
+    <string name="Week1_foundation">Week 1 : Foundation</string>
+    <string name="Week1_description">Start easy in the first week to let your body get used to the workout. It sets the baseline for your progress in the weeks ahead.</string>
+    <string name="my_plans">My plans\n</string>
+    <string name="workout_plan">workout plan</string>
+    <string name="nutrition_plan">nutrition plan</string>
+    <string name="crush_today_s_workout">Crush Today’s Workout</string>
+    <string name="today_s_diet">Today’s diet</string>
+    <string name="view">view</string>
+    <string name="my_trainer">Trainer</string>
+    <string name="workouts">Workouts</string>
+    <string name="nutrition">Nutrition</string>
+    <string name="more">More</string>
+    <string name="save">Save</string>
+    <string name="gender">Gender</string>
+    <string name="age">Age</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
+    <string name="my_profile">My profile</string>
+    <string name="progress">Progress</string>
+    <string name="injury_care_center">Injury Care Center</string>
+    <string name="challenges">Challenges</string>
+    <string name="reminders">Reminders</string>
+    <string name="settings">Settings</string>
+    <string name="test">test</string>
+    <string name="achievements">Achievements</string>
+    <string name="badge">Badge</string>
+    <string name="challenge_champion">Challenge\nChampion</string>
+    <string name="record_breaker">Record\nBreaker</string>
+    <string name="personal_info">Personal info</string>
+    <string name="edit">Edit</string>
+    <string name="goal1">Goal</string>
+    <string name="fitness_level1">fitness level</string>
+    <string name="intermediate1">intermediate</string>
+    <string name="bmi">Bmi</string>
+    <string name="daily_calories">daily calories</string>
+    <string name="modify">Modify</string>
+    <string name="exercise">Exercise</string>
+    <string name="my_target_values">My target values</string>
+    <string name="target_weight">Target weight</string>
+    <string name="target_calories">Target calories</string>
+    <string name="my_activity">My Activity</string>
+    <string name="view_all">view all</string>
+    <string name="age_hint">age</string>
+    <string name="weight_hint">weight</string>
+    <string name="height_hint">height</string>
+    <string name="muscles_worked">Muscles Worked</string>
+    <string name="target_muscle">Target muscle</string>
+    <string name="instructions">Instructions</string>
+    <string name="equipment">Equipment</string>
+    <string name="benefits">Benefits</string>
+    <string name="notifications">Notifications</string>
+    <string name="app_appearance">App Appearance</string>
+    <string name="privacy">Privacy</string>
+    <string name="push_notifications">Push Notifications</string>
+    <string name="terms_conditions">Terms and conditions</string>
+    <string name="log_out">Log out</string>
+    <string name="select_theme">Select Theme</string>
+    <string name="system_default">System Default</string>
+    <string name="light_theme">Light theme</string>
+    <string name="dark_theme">Dark Theme</string>
+    <string name="meals">Meals</string>
+    <string name="workout">Workout</string>
+    <string name="feed_posts">Feed posts</string>
+    <string name="days_for_your_preferred_reminders">Days for your preferred reminders</string>
+    <string name="mo">Mo</string>
+    <string name="tu">Tu</string>
+    <string name="we">We</string>
+    <string name="th">Th</string>
+    <string name="fr">Fr</string>
+    <string name="sa">Sa</string>
+    <string name="su">Su</string>
+    <string name="post_a_challenge">post a challenge</string>
+    <string name="post_your_rewards">post Your rewards</string>
+    <string name="available_challenges">Available challenges</string>
+    <string name="join">join</string>
+    <string name="plank_challenge">Plank\nChallenge</string>
+    <string name="push_up_power_challenge">Push-Up Power\nChallenge</string>
+    <string name="flex_friday_photo_challenge">Flex Friday Photo\nChallenge</string>
+    <string name="squat_squad_challenge">Squat Squad\nChallenge</string>
+    <string name="top_ranked_users">Top Ranked users</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="see_all">see All</string>
+    <string name="all">All</string>
+    <string name="active_users">Active users</string>
+    <string name="challenge">Challenge</string>
+
+
+    <string name="add_exercise">Add exercise</string>
+    <string name="add">ADD</string>
+    <string name="search">Search</string>
+    <string name="workout_n_insights">Workout \n insights</string>
+    <string name="post_workout_meal">Post Workout meal</string>
+    <string name="finish">Finish</string>
+    <string name="your_saved_templates">Your saved templates</string>
+    <string name="exercise_library">Exercise library</string>
+    <string name="workout_programs">Workout programs</string>
+    <string name="min">min</string>
+
+    <string name="your_recovery_plan">Your recovery plan</string>
+    <string name="common_injuries">Common Injuries </string>
+    <string name="your_daily_recovery_session">Your Daily\nRecovery Session </string>
+    <string name="error">Error</string>
+    <string name="days">days</string>
+    <string name="primary">Primary:</string>
+    <string name="secondary">Secondary:</string>
+    <string name="complete_the_exercise_first">Complete the exercise first</string>
+    <string name="timed_exercise">Timed exercise</string>
+    <string name="save_as_template">Save as template</string>
+    <string name="please_select_an_exercise">Please select an exercise</string>
+    <string name="please_enter_template_name">PLease enter template name</string>
+    <string name="all_muscles">All muscles</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="standard">Standard</string>
+    <string name="eat_all_essence_unrestricted_nutrition">Eat All Essence : Unrestricted Nutrition</string>
+    <string name="key_features">Key Features:</string>
+    <string name="your_journey">Your Journey</string>
+    <string name="intermittent_fasting">Intermittent fasting</string>
+    <string name="duration">Duration</string>
+    <string name="level">Level</string>
+    <string name="choose_plan">Choose plan</string>
+    <string name="nutri_guide">NutriGuide</string>
+    <string name="available_plans">Available plans</string>
+    <string name="nutriguide">NutriGuide</string>
+    <string name="daily_routine">Daily Routine</string>
+    <string name="plans">Plans</string>
+    <string name="no_custom_workouts_click_on_add_button">No custom workouts click on add button</string>
+    <string name="remaining">Remaining</string>
+    <string name="kcal">Kcal</string>
+    <string name="carbs">Carbs</string>
+    <string name="protein">Protein</string>
+    <string name="fats">Fats</string>
+    <string name="intaked">Intaked</string>
+    <string name="burned">Burned</string>
+    <string name="track_meals">Track meals</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="snack">Snack</string>
+    <string name="dinner">Dinner</string>
+    <string name="enroll">Enroll</string>
+    <string name="macro_tracker_your_daily_intake">Macro Tracker: Your Daily Intake</string>
+    <string name="add_to_breakfast">Add to breakfast</string>
+    <string name="number_of_serving">Number of serving</string>
+    <string name="serving_size">serving size</string>
+    <string name="save_meal">Save meal</string>
+    <string name="please_select_ingredients">Please select ingredients</string>
+    <string name="confirm">Confirm</string>
+    <string name="calories">calories</string>
+    <string name="meal_added_successfully">Meal added successfully</string>
+    <string name="please_enroll_on_a_new_program">Please Enroll on a new program</string>
+
+
+    <!-- Settings related strings. -->
+    <string name="pref_screen" translatable="false">ps</string>
+    <string name="pref_screen_title_live_preview" translatable="false">Live preview settings</string>
+    <string name="pref_screen_title_still_image" translatable="false">Still image settings</string>
+    <string name="pref_screen_title_camerax_live_preview" translatable="false">CameraX live preview settings</string>
+    <string name="pref_screen_title_cameraxsource_demo" translatable="false">CameraXSource live preview settings</string>
+    <string name="pref_category_info" translatable="false">Detection Info</string>
+    <string name="pref_category_pose_detection" translatable="false">Pose Detection</string>
+
+
+    <!-- Strings for camera settings. -->
+    <string name="pref_category_key_camera" translatable="false">pckc</string>
+    <string name="pref_category_title_camera" translatable="false">Camera</string>
+    <string name="pref_key_rear_camera_preview_size" translatable="false">rcpvs</string>
+    <string name="pref_key_rear_camera_picture_size" translatable="false">rcpts</string>
+    <string name="pref_key_front_camera_preview_size" translatable="false">fcpvs</string>
+    <string name="pref_key_front_camera_picture_size" translatable="false">fcpts</string>
+    <string name="pref_key_camerax_rear_camera_target_resolution" translatable="false">crctas</string>
+    <string name="pref_key_camerax_front_camera_target_resolution" translatable="false">cfctas</string>
+    <string name="pref_key_camera_live_viewport" translatable="false">clv</string>
+    <string name="pref_title_rear_camera_preview_size" translatable="false">Rear camera preview size</string>
+    <string name="pref_title_front_camera_preview_size" translatable="false">Front camera preview size</string>
+    <string name="pref_title_camerax_rear_camera_target_resolution" translatable="false">CameraX rear camera target resolution</string>
+    <string name="pref_title_camerax_front_camera_target_resolution" translatable="false">CameraX front camera target resolution</string>
+    <string name="pref_title_camera_live_viewport" translatable="false">Enable live viewport</string>
+    <string name="pref_summary_camera_live_viewport" translatable="false">Do not block camera preview drawing on detection</string>
+
+    <!-- Strings for pose detector performance mode preference. -->
+    <string name="pref_title_pose_detector_performance_mode" translatable="false">Performance mode</string>
+    <string name="pref_key_live_preview_pose_detection_performance_mode" translatable="false">lppdpm</string>
+    <string name="pref_key_still_image_pose_detection_performance_mode" translatable="false">sipdpm</string>
+    <string name="pref_entries_pose_detector_performance_mode_fast" translatable="false">Fast</string>
+    <string name="pref_entries_pose_detector_performance_mode_accurate" translatable="false">Accurate</string>
+    <string name="pref_entry_values_pose_detector_performance_mode_fast" translatable="false">1</string>
+    <string name="pref_entry_values_pose_detector_performance_mode_accurate" translatable="false">2</string>
+
+    <!-- Strings for pose detector prefer gpu preference. -->
+    <string name="pref_title_pose_detector_prefer_gpu" translatable="false">Prefer using GPU</string>
+    <string name="pref_key_pose_detector_prefer_gpu" translatable="false">pdpg</string>
+    <string name="pref_summary_pose_detector_prefer_gpu" translatable="false">If enabled, GPU will be used as long as it is available, stable and returns correct results. In this case, the detector will not check if GPU is really faster than CPU.</string>
+
+    <!-- Strings for pose detector showInFrameLikelihood preference. -->
+    <string name="pref_title_pose_detector_show_in_frame_likelihood" translatable="false">Show in-frame likelihood</string>
+    <string name="pref_key_live_preview_pose_detector_show_in_frame_likelihood" translatable="false">lppdsifl</string>
+    <string name="pref_key_still_image_pose_detector_show_in_frame_likelihood" translatable="false">sipdsifl</string>
+
+    <!-- Strings for pose detector z value visualization preference. -->
+    <string name="pref_title_pose_detector_visualize_z" translatable="false">Visualize z value</string>
+    <string name="pref_key_pose_detector_visualize_z" translatable="false">pdvz</string>
+    <string name="pref_title_pose_detector_rescale_z" translatable="false">Rescale z value for visualization</string>
+    <string name="pref_key_pose_detector_rescale_z" translatable="false">pdrz</string>
+
+
+</resources>
