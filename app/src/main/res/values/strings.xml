@@ -84,6 +84,8 @@
     <string name="start_pose_coach">Start pose coach</string>
     <string name="coach_no_workout_data">Enroll in a workout plan to unlock personalized sequencing.</string>
     <string name="coach_default_diet_reminder">Stay consistent with whole foods and hydration today.</string>
+    <string name="demo_login_hint">Demo login → demo@modarb.ai / DemoPass123!</string>
+    <string name="demo_login_success">Signed in with demo data.</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>

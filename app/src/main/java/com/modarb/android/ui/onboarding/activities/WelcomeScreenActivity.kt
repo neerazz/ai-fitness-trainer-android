@@ -18,6 +18,9 @@ import com.modarb.android.databinding.ActivityWelcomeScreenBinding
 import com.modarb.android.network.RetrofitService
 import com.modarb.android.network.RetrofitService.handleRequest
 import com.modarb.android.ui.home.HomeActivity
+import com.modarb.android.ui.onboarding.models.Preferences
+import com.modarb.android.ui.onboarding.models.data
+import com.modarb.android.ui.onboarding.models.user
 import com.modarb.android.ui.onboarding.utils.UserPref.UserPrefUtil
 import com.modarb.android.ui.onboarding.utils.ValidationUtil
 import com.modarb.android.ui.onboarding.viewModel.UserRepository
@@ -107,6 +110,8 @@ class WelcomeScreenActivity : AppCompatActivity() {
         val emailEditText = bottomSheet.findViewById<TextInputEditText>(R.id.emailEditText)
         val passwordEditText = bottomSheet.findViewById<TextInputEditText>(R.id.passwordEditText)
         progress = bottomSheet.findViewById(R.id.progress)!!
+        emailEditText?.setText(DEMO_EMAIL)
+        passwordEditText?.setText(DEMO_PASSWORD)
 
         loginBtn.setOnClickListener {
             val email = emailEditText?.text.toString().trim()
@@ -124,6 +129,10 @@ class WelcomeScreenActivity : AppCompatActivity() {
                     this, getString(R.string.enter_at_least_8_characters), Toast.LENGTH_SHORT
                 ).show()
             } else {
+                if (isDemoLogin(email, password)) {
+                    performDemoLogin()
+                    return@setOnClickListener
+                }
                 // Do login
                 showProgress(true)
                 viewModel.loginUser(email, password)
@@ -164,7 +173,45 @@ class WelcomeScreenActivity : AppCompatActivity() {
         }
 
     }
+
+    private fun isDemoLogin(email: String, password: String): Boolean {
+        return email.equals(DEMO_EMAIL, ignoreCase = true) && password == DEMO_PASSWORD
+    }
+
+    private fun performDemoLogin() {
+        val samplePreferences = Preferences(
+            fitness_goal = "Recomposition",
+            preferred_days = listOf("Mon", "Wed", "Fri", "Sat"),
+            preferred_equipment = listOf("Bodyweight", "Dumbbells", "Resistance bands"),
+            target_weight = 75,
+            workout_frequency = 4,
+            workout_place = "Home & Gym"
+        )
+        val sampleUser = user(
+            age = 30,
+            email = DEMO_EMAIL,
+            fitness_level = "intermediate",
+            gender = "male",
+            height = 178,
+            id = "demo-user",
+            injuries = listOf("tight hips"),
+            name = "Demo Athlete",
+            preferences = samplePreferences,
+            role = "user",
+            weight = 72
+        )
+        val sampleData = data(token = "demo-token", user = sampleUser)
+        UserPrefUtil.saveUserData(this, sampleData)
+        UserPrefUtil.setUserLoggedIn(this, true)
+        Toast.makeText(this, getString(R.string.demo_login_success), Toast.LENGTH_SHORT).show()
+        bottomSheet.dismiss()
+        startActivity(Intent(this@WelcomeScreenActivity, HomeActivity::class.java))
+        finish()
+    }
+
+    companion object {
+        private const val DEMO_EMAIL = "demo@modarb.ai"
+        private const val DEMO_PASSWORD = "DemoPass123!"
+    }
 }
-
-
 
