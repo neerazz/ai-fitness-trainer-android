@@ -6,9 +6,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
 import com.modarb.android.R
 import com.modarb.android.databinding.ActivityRegisterScreenBinding
 import com.modarb.android.network.RetrofitService
+import com.modarb.android.network.models.BaseResponse
 import com.modarb.android.ui.onboarding.models.UserRegisterData
 import com.modarb.android.ui.onboarding.utils.ValidationUtil
 import com.modarb.android.ui.onboarding.viewModel.UserRepository
@@ -59,29 +61,22 @@ class RegisterScreenActivity : AppCompatActivity() {
 
     private fun getResponse() {
         viewModel.registerResponse.observe(this) { response ->
-            RetrofitService.handleRequest(
-                response = response,
-                onSuccess = { loginResponse ->
-                    if (loginResponse.status == 200) {
-                        Toast.makeText(
-                            this,
-                            getString(R.string.welcome_please_login_to_complete_your_register),
-                            Toast.LENGTH_LONG
-                        ).show()
+            if (response.isSuccessful) {
+                Toast.makeText(
+                    this,
+                    getString(R.string.welcome_please_login_to_complete_your_register),
+                    Toast.LENGTH_LONG
+                ).show()
 
-                        val intent = Intent(this, WelcomeScreenActivity::class.java)
-                        intent.putExtra("register", true)
-                        startActivity(intent)
-                        this.finish()
-                    }
-                },
-                onError = { errorResponse ->
-                    val defaultErrorMessage = getString(R.string.an_error_occurred)
-                    val message = errorResponse?.errors?.firstOrNull() ?: errorResponse?.error
-                    ?: defaultErrorMessage
-                    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-                }
-            )
+                val intent = Intent(this, WelcomeScreenActivity::class.java)
+                intent.putExtra("register", true)
+                startActivity(intent)
+                this.finish()
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, BaseResponse::class.java)
+                Toast.makeText(this, errorResponse.message, Toast.LENGTH_SHORT).show()
+            }
             binding.progessView.progressOverlay.visibility = View.GONE
 
         }
