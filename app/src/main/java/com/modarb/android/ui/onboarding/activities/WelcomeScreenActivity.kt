@@ -90,7 +90,11 @@ class WelcomeScreenActivity : AppCompatActivity() {
     }
 
     private fun initViewModels() {
-        val userRepository = UserRepository(RetrofitService.createService())
+        val userRepository = UserRepository(
+            RetrofitService.createService(),
+            context = this,
+            useLocalStorage = true // POC mode - using local storage
+        )
         viewModel = ViewModelProvider(
             this, UserViewModelFactory(userRepository)
         )[UserViewModel::class.java]

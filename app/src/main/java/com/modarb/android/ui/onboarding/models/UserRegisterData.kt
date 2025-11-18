@@ -36,7 +36,8 @@ object UserRegisterData {
         println("  preferred_equipment: ${registerRequest.preferences.preferred_equipment}")
         println("  target_weight: ${registerRequest.preferences.target_weight}")
         println("  workout_place: ${registerRequest.preferences.workout_place}")
-
+        println("  preferred_days: ${registerRequest.preferences.preferred_days}")
+        println("  workout_frequency: ${registerRequest.preferences.workout_frequency}")
 
         println("name: ${registerRequest.name}")
         println("password: ${registerRequest.password}")
