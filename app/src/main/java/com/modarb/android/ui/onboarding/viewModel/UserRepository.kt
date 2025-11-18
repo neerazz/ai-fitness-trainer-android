@@ -46,9 +46,13 @@ class UserRepository(
      * Local login implementation (POC)
      */
     private fun loginUserLocally(email: String, password: String): Response<LoginResponse> {
+        android.util.Log.d("UserRepository", "=== Starting local login ===")
+        android.util.Log.d("UserRepository", "Email: $email")
+
         val localUser = LocalUserStorage.validateLogin(context!!, email, password)
 
         if (localUser != null) {
+            android.util.Log.d("UserRepository", "Login successful for user: ${localUser.name}")
             // Create successful response
             val loginResponse = LoginResponse().apply {
                 status = 200
@@ -79,6 +83,7 @@ class UserRepository(
             }
             return Response.success(loginResponse)
         } else {
+            android.util.Log.e("UserRepository", "Login failed - invalid credentials")
             // Create error response
             val errorResponse = """{"status":401,"message":"Invalid email or password","errors":null}"""
             return Response.error(
@@ -92,9 +97,15 @@ class UserRepository(
      * Local registration implementation (POC)
      */
     private fun registerUserLocally(registerRequest: RegisterRequest): Response<LoginResponse> {
+        android.util.Log.d("UserRepository", "=== Starting local registration ===")
+        android.util.Log.d("UserRepository", "Email: ${registerRequest.email}")
+        android.util.Log.d("UserRepository", "Name: ${registerRequest.name}")
+        android.util.Log.d("UserRepository", "DOB: ${registerRequest.dob}")
+
         val success = LocalUserStorage.registerUser(context!!, registerRequest)
 
         if (success) {
+            android.util.Log.d("UserRepository", "Registration successful - creating response")
             // Create successful response
             val loginResponse = LoginResponse().apply {
                 status = 201
@@ -125,6 +136,7 @@ class UserRepository(
             }
             return Response.success(loginResponse)
         } else {
+            android.util.Log.e("UserRepository", "Registration failed - user already exists")
             // Create error response - user already exists
             val errorResponse = """{"status":400,"message":"User with this email already exists","errors":null}"""
             return Response.error(
@@ -136,10 +148,11 @@ class UserRepository(
 
     /**
      * Calculate age from date of birth
+     * Format: yyyy/MM/dd (as set in SelectGenderView)
      */
     private fun calculateAge(dob: String): Int {
         return try {
-            val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.US)
+            val formatter = SimpleDateFormat("yyyy/MM/dd", Locale.US)
             val birthDate = formatter.parse(dob) ?: return 0
 
             val birthCalendar = Calendar.getInstance().apply { time = birthDate }
@@ -153,6 +166,7 @@ class UserRepository(
 
             age
         } catch (e: Exception) {
+            e.printStackTrace()
             0 // Default age if parsing fails
         }
     }

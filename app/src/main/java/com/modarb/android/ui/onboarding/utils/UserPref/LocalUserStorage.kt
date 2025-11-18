@@ -46,10 +46,13 @@ object LocalUserStorage {
      */
     fun registerUser(context: Context, registerRequest: RegisterRequest): Boolean {
         try {
+            android.util.Log.d("LocalUserStorage", "Attempting to register user: ${registerRequest.email}")
             val users = getAllUsers(context).toMutableList()
+            android.util.Log.d("LocalUserStorage", "Current user count: ${users.size}")
 
             // Check if user already exists
             if (users.any { it.email.equals(registerRequest.email, ignoreCase = true) }) {
+                android.util.Log.w("LocalUserStorage", "User already exists with email: ${registerRequest.email}")
                 return false // User already exists
             }
 
@@ -77,8 +80,10 @@ object LocalUserStorage {
 
             users.add(newUser)
             saveAllUsers(context, users)
+            android.util.Log.d("LocalUserStorage", "User registered successfully! New user count: ${users.size}")
             return true
         } catch (e: Exception) {
+            android.util.Log.e("LocalUserStorage", "Error registering user", e)
             e.printStackTrace()
             return false
         }
@@ -88,10 +93,21 @@ object LocalUserStorage {
      * Validate login credentials
      */
     fun validateLogin(context: Context, email: String, password: String): LocalUser? {
+        android.util.Log.d("LocalUserStorage", "Validating login for email: $email")
         val users = getAllUsers(context)
-        return users.find {
+        android.util.Log.d("LocalUserStorage", "Total users in storage: ${users.size}")
+
+        val user = users.find {
             it.email.equals(email, ignoreCase = true) && it.password == password
         }
+
+        if (user != null) {
+            android.util.Log.d("LocalUserStorage", "Login validation successful for: ${user.name}")
+        } else {
+            android.util.Log.w("LocalUserStorage", "Login validation failed - no matching user found")
+        }
+
+        return user
     }
 
     /**
